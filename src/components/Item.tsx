@@ -1,26 +1,22 @@
 import React from 'react'
+import { ItemProps } from '../interfaces/interfaces';
 
-interface ItemProps {
-  description: string, 
-  completed: boolean,
-  onChange: Function,
-  id: string
-}
-
-const Item: React.FC = (props: ItemProps) =>  {
-  const { description, completed, onChange, id } = props;
+const Item: React.FC<ItemProps> = (props) =>  {
+  const { onChange } = props;
+  const { description, completed, id } = props.item;
 
   const className = completed ? 'completed' : '';
 
-  const onCheckboxChange = ({ target }) => {
+  const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = event;
     onChange({ completed: target.checked, id });
   }
 
   return (
-    <>
-      <input type="checkbox" onChange={onCheckboxChange} id={id} />
+    <div className="list-item">
+      <input type="checkbox" onChange={onCheckboxChange} />
       <div className={className}>{ description }</div> 
-    </>
+    </div>
   )
 
 }

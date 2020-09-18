@@ -1,33 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Item from './Item';
+import { TodoItem } from '../interfaces/interfaces';
 
-interface TodoItem {
-  id: number,
-  description: string,
-  completed: boolean
+type ListProps = {
+  todos: Array<TodoItem>,
+  onItemChecked(item: TodoItem): void
 }
 
+const List: React.FC<ListProps> = (props: ListProps) => {
+  const { todos, onItemChecked } = props;
 
-const List = () => {
-  const initialItems: Array<TodoItem> =  [
-    {
-      id: 1,
-      description: 'do some stuff',
-      completed: false,
-    },
-    {
-      id: 2,
-      description: 'second item',
-      completed: false,
-    },
-  ];
-
-  const [items, setItems] = useState(initialItems);
+  const onItemChange = (item: TodoItem) => {
+    onItemChecked(item);
+  }
 
   return (
-    <div>
-      { items.map(item => (
-          <Item {...item} key={item.id} />
+    <div className="list-container">
+      { todos.map(item => (
+          <Item item={item} key={`key_${item.id}`} onChange={onItemChange} />
       ))}
     </div>
   )
